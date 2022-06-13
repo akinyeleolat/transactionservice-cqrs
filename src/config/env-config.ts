@@ -5,6 +5,7 @@ import { config } from 'dotenv';
 config();
 
 export const environmentVariables = {
+  port: env.get('APP_PORT').asInt(),
   db: {
     host: env.get('DB_HOST').asString(),
     port: env.get('DB_PORT').asInt(),

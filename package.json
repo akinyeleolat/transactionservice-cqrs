@@ -22,6 +22,7 @@
   "dependencies": {
     "@nestjs/common": "^8.1.1",
     "@nestjs/core": "^8.1.1",
+    "@nestjs/cqrs": "8.0.4",
     "@nestjs/platform-express": "^8.1.1",
     "@nestjs/typeorm": "8.1.2",
     "dotenv": "16.0.1",

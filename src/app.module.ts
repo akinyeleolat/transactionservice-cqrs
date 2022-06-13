@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Transaction } from './entities/transaction';
 import { environmentVariables } from './config/env-config';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { environmentVariables } from './config/env-config';
       database: environmentVariables.db.name,
       entities: [Transaction],
     }),
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

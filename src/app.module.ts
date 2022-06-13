@@ -3,16 +3,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Transaction } from './entities/transaction';
+import { environmentVariables } from './config/env-config';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 55000,
-      username: 'postgres',
-      password: 'postgrespw',
-      database: 'transaction_service',
+      host: environmentVariables.db.host,
+      port: environmentVariables.db.port,
+      username: environmentVariables.db.username,
+      password: environmentVariables.db.password,
+      database: environmentVariables.db.name,
       entities: [Transaction],
     }),
   ],

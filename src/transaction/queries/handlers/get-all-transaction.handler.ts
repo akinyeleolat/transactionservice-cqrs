@@ -14,6 +14,10 @@ export class GetAllTransactionHandler
     private transactionRepo: Repository<Transaction>,
   ) {}
   async execute(query: GetAllTransactionQuery): Promise<Transaction[]> {
-    return await this.transactionRepo.find();
+    return await this.transactionRepo.find({
+      order: {
+        createdAt: 'DESC',
+      },
+    });
   }
 }

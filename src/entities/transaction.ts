@@ -31,7 +31,7 @@ export class Transaction {
   transactionAmount!: number;
 
   @Column('char', {
-    length: 5,
+    length: 3,
   })
   transactionCurrency!: string;
 
@@ -44,7 +44,7 @@ export class Transaction {
   processedAmount!: number;
 
   @Column('char', {
-    length: 5,
+    length: 3,
   })
   processedCurrency!: string;
 

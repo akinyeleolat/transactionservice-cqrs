@@ -25,6 +25,9 @@ export class SaveTransactionHandler
       transaction.processedAmount = transaction.transactionAmount;
     }
     transaction.transactionReference = GenerateTransactionReference();
+    transaction.processedCurrency = transaction.processedCurrency.toUpperCase();
+    transaction.transactionCurrency =
+      transaction.processedCurrency.toUpperCase();
     await this.transactionRepo.insert(transaction);
   }
 }

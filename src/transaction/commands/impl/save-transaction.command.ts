@@ -1,6 +1,9 @@
-export class SaveTransactionCommand {
-  customerId!: string;
-  transactionAmount!: number;
-  transactionCurrency!: string;
-  processedCurrency!: string;
+import { ICommand } from '@nestjs/cqrs';
+export class SaveTransactionCommand implements ICommand {
+  constructor(
+    readonly customerId: string,
+    readonly transactionCurrency: string,
+    readonly processedCurrency: string,
+    readonly transactionAmount: number,
+  ) {}
 }

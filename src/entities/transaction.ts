@@ -4,9 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm';
+import { uuid } from 'uuidv4';
 
-@Entity({ name: 'transaction' })
+@Entity({ name: 'transactions' })
 export class Transaction {
   @PrimaryGeneratedColumn('uuid')
   txnId!: string;
@@ -18,7 +20,7 @@ export class Transaction {
   customerId!: string;
 
   @Column({ name: 'transactionReference' })
-  transactionReference: string;
+  transactionReference!: string;
 
   @Column('decimal', {
     unsigned: true,
@@ -29,9 +31,9 @@ export class Transaction {
   transactionAmount!: number;
 
   @Column('char', {
-    length: 5,
+    length: 3,
   })
-  transactionDenomination!: string;
+  transactionCurrency!: string;
 
   @Column('decimal', {
     unsigned: true,
@@ -42,9 +44,9 @@ export class Transaction {
   processedAmount!: number;
 
   @Column('char', {
-    length: 5,
+    length: 3,
   })
-  processedDenomination!: string;
+  processedCurrency!: string;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -55,4 +57,9 @@ export class Transaction {
     type: 'timestamp',
   })
   updatedAt!: Date;
+
+  @BeforeInsert()
+  genarate() {
+    this.txnId = uuid();
+  }
 }

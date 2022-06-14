@@ -2,19 +2,15 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Transaction } from './entities/transaction';
+import { TransactionModule } from './transaction/transaction.module';
+import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
+import { RateModule } from './integration/rate/rate.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 55000,
-      username: 'postgres',
-      password: 'postgrespw',
-      database: 'transaction_service',
-      entities: [Transaction],
-    }),
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
+    TransactionModule,
+    RateModule,
   ],
   controllers: [AppController],
   providers: [AppService],

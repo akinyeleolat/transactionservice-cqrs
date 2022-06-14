@@ -3,7 +3,10 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Transaction } from '../../../entities/transaction';
 import { SaveTransactionCommand } from '../impl/save-transaction.command';
-import { generateRefence as GenerateTransactionReference } from '../../../helpers/Util';
+import {
+  CurrencyConverter,
+  generateRefence as GenerateTransactionReference,
+} from '../../../helpers/Util';
 
 @CommandHandler(SaveTransactionCommand)
 export class SaveTransactionHandler
@@ -21,9 +24,14 @@ export class SaveTransactionHandler
     transaction.transactionCurrency = command.transactionCurrency;
     transaction.processedCurrency = command.processedCurrency;
     if (transaction.transactionCurrency === transaction.processedCurrency) {
-      // use rate service
       transaction.processedAmount = transaction.transactionAmount;
     }
+    // use rate service
+    transaction.processedAmount = await CurrencyConverter(
+      transaction.transactionCurrency,
+      transaction.processedCurrency,
+      transaction.transactionAmount,
+    );
     transaction.transactionReference = GenerateTransactionReference();
     transaction.processedCurrency = transaction.processedCurrency.toUpperCase();
     transaction.transactionCurrency =

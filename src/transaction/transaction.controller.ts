@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { Transaction } from '../entities/transaction';
 import { SaveTransactionCommand } from './commands/impl/save-transaction.command';
-import { CreateTransactionBodyDto } from './dto/ceate-transaction-body.dto';
+import { CreateTransactionBodyDto } from './dto/create-transaction-body.dto';
 import { FindTransactionByIdParamDTO } from './dto/find-transaction-by-id.params.dto';
 import { FindTransactionByIdResponseDTO } from './dto/find-transaction-by-id.response.dto';
 import { ResponseDescription } from './helpers/response-description';

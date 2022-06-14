@@ -6,6 +6,7 @@ config();
 
 export const environmentVariables = {
   port: env.get('APP_PORT').asInt(),
+  env: env.get('NODE_ENV').asString(),
   rate: {
     ServiceUrl: env.get('RATE_SERVICE_URL').asString(),
     ApiKey: env.get('RATE_SERVICE_API_KEY').asString(),

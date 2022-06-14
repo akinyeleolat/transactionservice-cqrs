@@ -19,6 +19,7 @@ import {
 import { Transaction } from '../entities/transaction';
 import { SaveTransactionCommand } from './commands/impl/save-transaction.command';
 import { CreateTransactionBodyDto } from './dto/create-transaction-body.dto';
+import { CreateTransactionResponseDTO } from './dto/create-transaction.response.dto';
 import { FindTransactionByIdParamDTO } from './dto/find-transaction-by-id.params.dto';
 import { FindTransactionByIdResponseDTO } from './dto/find-transaction-by-id.response.dto';
 import { ResponseDescription } from './helpers/response-description';
@@ -57,7 +58,7 @@ export class TransactionController {
   })
   async createTransaction(
     @Body() body: CreateTransactionBodyDto,
-  ): Promise<void> {
+  ): Promise<CreateTransactionResponseDTO> {
     const newTransaction = new SaveTransactionCommand(
       body.customerId,
       body.transactionCurrency,

@@ -1,6 +1,6 @@
 import { IQueryResult } from '@nestjs/cqrs';
 
-export class FindTransactionByIdResult implements IQueryResult {
+export class CreateTransactionResult implements IQueryResult {
   readonly txnId: string = '';
   readonly customerId: string = '';
   readonly transactionAmount: number = 0;

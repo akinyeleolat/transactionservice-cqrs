@@ -33,7 +33,7 @@ export class Transaction {
   @Column('char', {
     length: 5,
   })
-  transactionDenomination!: string;
+  transactionCurrency!: string;
 
   @Column('decimal', {
     unsigned: true,
@@ -46,7 +46,7 @@ export class Transaction {
   @Column('char', {
     length: 5,
   })
-  processedDenomination!: string;
+  processedCurrency!: string;
 
   @CreateDateColumn({
     type: 'timestamp',

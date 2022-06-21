@@ -7,6 +7,7 @@ import {
   UsePipes,
   ValidationPipe,
   Param,
+  Query,
 } from '@nestjs/common';
 import { QueryBus, CommandBus } from '@nestjs/cqrs';
 import {
@@ -16,12 +17,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Transaction } from '../entities/transaction';
 import { SaveTransactionCommand } from './commands/impl/save-transaction.command';
 import { CreateTransactionBodyDto } from './dto/create-transaction-body.dto';
 import { CreateTransactionResponseDTO } from './dto/create-transaction.response.dto';
 import { FindTransactionByIdParamDTO } from './dto/find-transaction-by-id.params.dto';
 import { FindTransactionByIdResponseDTO } from './dto/find-transaction-by-id.response.dto';
+import { GetTransactionParamDTO } from './dto/get-all-transaction.params.dto';
+import { GetTransactionsResponseDTO } from './dto/get-all-transaction.response.dto';
 import { ResponseDescription } from './helpers/response-description';
 import { FindTransactionByIdQuery } from './queries/impl/find-transaction-by-id.query';
 import { GetAllTransactionQuery } from './queries/impl/get-all-transaction.query';
@@ -35,17 +37,21 @@ export class TransactionController {
   ) {}
 
   @Get()
+  @UsePipes(new ValidationPipe({ transform: true }))
   @ApiResponse({
     status: 200,
     description: ResponseDescription.OK,
-    type: [Transaction],
+    type: [GetTransactionsResponseDTO],
   })
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiInternalServerErrorResponse({
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
-  async getAll() {
-    return await this.queryBus.execute(new GetAllTransactionQuery());
+  async getAll(
+    @Query() queryDTO: GetTransactionParamDTO,
+  ): Promise<GetTransactionsResponseDTO> {
+    const query = new GetAllTransactionQuery(queryDTO.page, queryDTO.pageSize);
+    return await this.queryBus.execute(query);
   }
 
   @Post()
@@ -69,6 +75,7 @@ export class TransactionController {
   }
 
   @Get('/:id')
+  @UsePipes(new ValidationPipe({ transform: true }))
   @ApiResponse({
     status: 200,
     description: ResponseDescription.OK,

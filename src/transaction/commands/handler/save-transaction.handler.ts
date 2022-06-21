@@ -1,5 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { InternalServerErrorException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Transaction } from '../../../entities/transaction';
@@ -7,6 +10,7 @@ import { SaveTransactionCommand } from '../impl/save-transaction.command';
 import { generateRefence as GenerateTransactionReference } from '../../../helpers/Util';
 import { RateClientService } from '../../../integration/rate/rate.service';
 import { CreateTransactionResult } from '../../queries/results/create-transaction.result';
+import { Currency } from '../../helpers/currency.enum';
 
 @CommandHandler(SaveTransactionCommand)
 export class SaveTransactionHandler
@@ -24,6 +28,12 @@ export class SaveTransactionHandler
     transaction.transactionAmount = command.transactionAmount;
     transaction.transactionCurrency = command.transactionCurrency;
     transaction.processedCurrency = command.processedCurrency;
+    const transactionCurrency = transaction.transactionCurrency;
+    if (!Object.values(Currency).includes(transactionCurrency as Currency)) {
+      throw new UnprocessableEntityException(
+        'The transaction currency not currently supported',
+      );
+    }
     // use rate service
     if (transaction.transactionCurrency !== transaction.processedCurrency) {
       const convertData = await this.rateClientService.convert({

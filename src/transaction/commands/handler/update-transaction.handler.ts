@@ -37,5 +37,6 @@ export class UpdateTransactionHandler
     transaction.customerId = data.customerId;
     transaction.transactionAmount = command.transactionAmount;
     transaction.transactionCurrency = data.transactionCurrency || command.transactionCurrency;
+    return transaction;
   }
 }
